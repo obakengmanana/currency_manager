@@ -1,0 +1,103 @@
+#editModal {
+    display: none;
+}
+
+body {
+    position: relative;
+}
+
+.popup-container {
+    align-items: center;
+    animation: show-popup 1s forwards;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    left: 0;
+    position: relative;
+    top: 0;
+    width: 100vw;
+  }
+  
+  .popup-container.popup-hide {
+    animation: hide-popup 1s forwards;
+  }
+  
+  .popup {
+    background: white;
+    border-radius: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    font-family: system-ui;
+    font-size: 16px;
+    max-width: 500px;
+    padding: 40px 30px;
+    position: relative;
+    width: 50%;
+    margin: auto;
+  }
+  
+  .popup .popup-close-btn {
+    align-items: center;
+    background-color: green;
+    border-radius: 5px;
+    color: #fff;
+    display: flex;
+    font-size: 20px;
+    height: 32px;
+    justify-content: center;
+    line-height: 32px;
+    position: absolute;
+    right: 5%;
+    text-decoration: none;
+    top: 5%;
+    width: 32px;
+  }
+  
+  .popup h1 {
+    color: peru;
+    margin-top: 0;
+  }
+  
+  .popup input,
+  .popup textarea {
+    border: 1px solid peru;
+    box-sizing: border-box;
+    min-height: 30px;
+    width: 100%;
+  }
+  .popup textarea {
+    height: 80px;
+  }
+  .popup input[type="submit"] {
+    background-color: orange;
+    margin-top: 20px;
+  }
+  
+  #elformo_honeypot {
+    display: none;
+  }
+  
+  @keyframes show-popup {
+    0% {
+      visibility: visible;
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes hide-popup {
+    0% {
+      opacity: 1;
+    }
+    99% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+  

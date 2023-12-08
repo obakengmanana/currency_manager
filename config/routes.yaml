@@ -1,5 +1,23 @@
-controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
-    type: attribute
+home:
+    path: /
+    controller: App\Controller\CurrencyController::list
+    
+currency_add:
+    path: /currency/add/{name}/{code}'
+    controller: App\Controller\CurrencyController::add
+    methods: ['GET', 'POST']
+
+currency_list:
+    path: /
+    controller: App\Controller\CurrencyController::list
+    methods: ['GET']
+
+currency_edit:
+    path: /currency/edit/{code}
+    controller: App\Controller\CurrencyController::edit
+    methods: ['GET', 'POST']
+
+currency_delete:
+    path: /currency/delete/{code}
+    controller: App\Controller\CurrencyController::delete
+    methods: ['GET', 'POST']

@@ -1,0 +1,26 @@
+#parent{ 
+    display: flex; 
+  } 
+  .col{ 
+    color: black; 
+    height: 100px; 
+    background-color: transparent; 
+    padding: 10px; 
+    flex: 33.33%; 
+  } 
+  .col:nth-child(2){ 
+    background-color: transparent; 
+  } 
+
+  .currency_link{
+    cursor: pointer;
+    width: fit-content;
+  }
+
+  a{
+    color: white;
+    cursor: pointer;
+  }
+
+
+

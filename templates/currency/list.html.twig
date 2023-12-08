@@ -1,0 +1,213 @@
+{# templates/currency/list.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+            <div class="header">
+
+                <!--Content before waves-->
+                <div class="inner-header flex">
+                    <!--logo.-->
+                    <svg version="1.1" class="logo" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500" xml:space="preserve">
+                    <path fill="#FFFFFF" stroke="#000000" stroke-width="10" stroke-miterlimit="10" d="M57,283" />
+                    <g><path fill="#fff"
+                    d="M250.4,0.8C112.7,0.8,1,112.4,1,250.2c0,137.7,111.7,249.4,249.4,249.4c137.7,0,249.4-111.7,249.4-249.4
+                    C499.8,112.4,388.1,0.8,250.4,0.8z M383.8,326.3c-62,0-101.4-14.1-117.6-46.3c-17.1-34.1-2.3-75.4,13.2-104.1
+                    c-22.4,3-38.4,9.2-47.8,18.3c-11.2,10.9-13.6,26.7-16.3,45c-3.1,20.8-6.6,44.4-25.3,62.4c-19.8,19.1-51.6,26.9-100.2,24.6l1.8-39.7		c35.9,1.6,59.7-2.9,70.8-13.6c8.9-8.6,11.1-22.9,13.5-39.6c6.3-42,14.8-99.4,141.4-99.4h41L333,166c-12.6,16-45.4,68.2-31.2,96.2	c9.2,18.3,41.5,25.6,91.2,24.2l1.1,39.8C390.5,326.2,387.1,326.3,383.8,326.3z" />
+                    </g>
+                    </svg>
+                    <h1>Currency List</h1>
+                    </div>
+
+                    <!--Waves Container-->
+                    <div>
+                    <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                    <defs>
+                    <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                    </defs>
+                    <g class="parallax">
+                    <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+                    <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+                    <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+                    <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+                    </g>
+                    </svg>
+                </div>
+                <!--Waves end-->
+
+            </div>
+            <!--Header ends-->
+
+            <!--Content starts-->
+            <div class="content flex">
+                <div id="parent"> 
+                    <div class="col">
+                        <div class="container"> 
+                            <div class="title"> 
+                            <h3>Click currency below to add it to the currency conversion list</h3>
+                            </div>
+                            <div class="list"> 
+                                <ul class="stylel">
+                                    {% for code, name in currencies %}
+                                        <li class="currency_link test" data-name="{{ name }}" data-code="{{ code }}" onclick="handleItemClick(this)"><a>({{ code }}) {{ name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="container"> 
+                            <div class="title"> 
+                            <h3>Currency conversion list</h3>
+                            </div>
+                            <div class="list"> 
+                                <ul class="stylel">
+                                    {% for data in conversionData %}
+                                        <li class=" test">{{ data.compName }} - {{ data.zarName }}  :  {{ data.compCode|upper }} {{ data.inComp }} = {{ data.zarCode|upper }} {{ data.currMultiByzar}}</li>
+                                        
+                                         <div class="button-container">
+                                            <button class="btn delete_button" data-name="{{ data.compName }}" data-code="{{ data.compCode }}" onclick="handleDeleteClick(this)" type="button">
+                                                <strong>DELETE</strong>
+                                                <div id="container-stars">
+                                                    <div id="stars"></div>
+                                                </div>
+
+                                                <div id="glow">
+                                                    <div class="circle"></div>
+                                                    <div class="circle"></div>
+                                                </div>
+                                            </button>
+                                            <button class="btn edit_button"  data-name="{{ data.compName }}" data-code="{{ data.compCode }}" onclick="handleEditClick(this)" type="button">
+                                                <strong>EDIT</strong>
+                                                <div id="container-stars">
+                                                    <div id="stars"></div>
+                                                </div>
+
+                                                <div id="glow">
+                                                    <div class="circle"></div>
+                                                    <div class="circle"></div>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+            <!--Content ends-->
+
+            <!-- HTML for the Popup -->
+            <div id="editModal" class="modal popup-container">
+                <div class="modal-content popup">
+                    <span class="close popup-close popup-close-btn" onclick="closeEditModal()">&times;</span>
+
+                    <form id="editForm" name="editForm" method="POST" action="{{ path('currency_edit', {'code': 'PLACEHOLDER'}) }}">
+                        <label for="amount">Amount:</label>
+                        <input type="text" id="amount" name="amount" value='1' oninput="validateNumericInput(this)">
+                        
+                        <!-- Hidden field to store the ID for the edit function -->
+                        <input type="hidden" id="name" name="name">
+                        <input type="hidden" id="code" name="code">
+
+                        <button class="btn edit_button"  onclick="submitEditForm(this)" type="button">
+                            <strong>Submit</strong>
+                                <div id="container-stars">
+                                    <div id="stars"></div>
+                                </div>
+
+                                <div id="glow">
+                                    <div class="circle"></div>
+                                    <div class="circle"></div>
+                                </div>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        function handleItemClick(element, action) {
+
+            // Retrieve data-name and data-code attributes
+            const name = element.getAttribute('data-name');
+            const code = element.getAttribute('data-code');
+
+            // Make an AJAX request to the controller action
+            const xhr = new XMLHttpRequest();
+
+            if (action === 'delete') {
+                 url = '{{ path('currency_delete', {'name': '__name__', 'code': '__code__'}) }}'
+                .replace('__name__', encodeURIComponent(name))
+                .replace('__code__', encodeURIComponent(code));
+            }else{
+                 url = '{{ path('currency_add', {'name': '__name__', 'code': '__code__'}) }}'
+                .replace('__name__', encodeURIComponent(name))
+                .replace('__code__', encodeURIComponent(code));
+            }
+
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+
+            // Specify the action to perform (add or delete)
+            const data = { name: name, code: code, action: action };
+
+            // Send the selected data to the server
+            xhr.send(JSON.stringify(data));
+
+
+            // Handle the response from the server
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    console.log(':', xhr.responseText);
+                 
+                    alert(xhr.responseText);
+                    
+                    window.location.href = '{{ path('currency_list') }}';
+                } else if (xhr.status === 302) {  // Redirect status code
+                    console.log('Redirecting...');
+                } else {
+                    console.error('Failed to perform action:', xhr.status, xhr.statusText);
+                }
+            };
+        }
+
+        // Call the function with 'delete' action when "Delete" link is clicked
+        function handleDeleteClick(element) {
+            handleItemClick(element, 'delete');
+        }
+
+        function submitEditForm() {
+        // Serialize the form data
+        var formData = $("#editForm").serialize();
+
+        var currencyCode = $("#code").val();
+        var editCurrencyLink = document.getElementById('editForm');
+        editCurrencyLink.action = editCurrencyLink.action.replace('PLACEHOLDER', currencyCode);
+
+        console.log(document.editForm);
+
+        // Make an AJAX request to submit the form data
+        $.ajax({
+            type: "POST",
+            url: $("#editForm").attr("action"),
+            data: formData,
+            success: function (data) {
+                // Handle success (optional)
+                console.log("Data submitted successfully");
+            },
+            error: function (error) {
+                // Handle errors (optional)
+                console.error("Error submitting data:", error);
+            }
+        });
+
+        location.reload();
+    }
+        
+    </script>
+{% endblock %}
